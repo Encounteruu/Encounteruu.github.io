@@ -18,18 +18,21 @@
   
     <meta name="description" content="RSA公钥加密系统通过公钥加密系统，可以实现对两个通信单位进行加密，这样即使传递的信息被黑客截取，也无法被其利用。公钥加密系统还可以让通信双方在电子信息末尾添加一个电子签名，这种电子签名无法被伪造，而且任何人都能轻易的核对签名的正确与否。 RSA公钥加密系统主要基于以下事实：寻找一个大素数是容易的，但是把一个大素数分解成正确的两个大素数的积是困难的。 公钥加密系统和数字签名的实现公钥加密系统 在一">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Encounteruu">
+<meta property="og:title" content="RSA加密系统">
 <meta property="og:url" content="http://example.com/2022/04/08/RSA%E5%85%AC%E9%92%A5%E5%8A%A0%E5%AF%86%E7%B3%BB%E7%BB%9F/index.html">
 <meta property="og:site_name" content="Encounteruu">
 <meta property="og:description" content="RSA公钥加密系统通过公钥加密系统，可以实现对两个通信单位进行加密，这样即使传递的信息被黑客截取，也无法被其利用。公钥加密系统还可以让通信双方在电子信息末尾添加一个电子签名，这种电子签名无法被伪造，而且任何人都能轻易的核对签名的正确与否。 RSA公钥加密系统主要基于以下事实：寻找一个大素数是容易的，但是把一个大素数分解成正确的两个大素数的积是困难的。 公钥加密系统和数字签名的实现公钥加密系统 在一">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-04-08T10:15:02.546Z">
-<meta property="article:modified_time" content="2022-04-11T08:19:59.564Z">
+<meta property="article:modified_time" content="2022-04-15T03:14:29.386Z">
 <meta property="article:author" content="Encounteruu">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="RSA">
+<meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>Encounteruu</title>
+  <title>RSA加密系统 - Encounteruu</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -119,11 +122,55 @@
           
           
           
-            <li class="nav-item">
-              <a class="nav-link" href="/category/">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="iconfont icon-category-fill"></i>
                 分类
               </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/categories/Web/">
+                    
+                    Web
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/categories/Crypt/">
+                    
+                    Crypt
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/categories/Misc">
+                    
+                    Misc
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/categories/Program">
+                    
+                    Program
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/categories/Daily">
+                    
+                    Daily
+                  </a>
+                
+              </div>
             </li>
           
         
@@ -175,7 +222,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="">
+            <span class="h2" id="subtitle" title="RSA加密系统">
               
             </span>
 
@@ -234,7 +281,7 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none"></h1>
+            <h1 style="display: none">RSA加密系统</h1>
             
             <div class="markdown-body">
               <h1 id="RSA公钥加密系统"><a href="#RSA公钥加密系统" class="headerlink" title="RSA公钥加密系统"></a>RSA公钥加密系统</h1><p>通过公钥加密系统，可以实现对两个通信单位进行加密，这样即使传递的信息被黑客截取，也无法被其利用。公钥加密系统还可以让通信双方在电子信息末尾添加一个电子签名，这种电子签名无法被伪造，而且任何人都能轻易的核对签名的正确与否。</p>
@@ -320,7 +367,7 @@
 <p>同余方程的解有三种情况，只有当GDD(a, n)|b时，方程有解，例如：</p>
 <div class="code-wrapper"><pre><code class="hljs">　　1. 无解，例如2x≡1 (mod 4)；
 </code></pre></div>
-<p>   　　2. 有唯一解，例如2x≡1 (mod 5)；<br>      　　3. 有无数解，例如2x≡0 (mod 4)；</p>
+<p>   　　2. 有唯一解，例如2x≡1 (mod 5)；<br>            　　3. 有无数解，例如2x≡0 (mod 4)；</p>
 <h2 id="3、欧拉函数"><a href="#3、欧拉函数" class="headerlink" title="3、欧拉函数"></a>3、欧拉函数</h2><p>对正整数n，欧拉函数（Euler’s totient function）是小于n的正整数中与n互质的正整数的个数，用φ(n)表示。欧拉函数又称为φ函数、欧拉商数等，φ(n)的值被称为n的欧拉数。规定φ(1)&#x3D;1。例如，在小于8的正整数中，1,3,5,7都与8互质，因此φ(8)&#x3D;4，φ(8)是一个欧拉函数，它的值等于4，4是8的欧拉数。</p>
 <p>当n是素数时，φ(n)&#x3D;n-1，因为所有小于n的数都和n互素。</p>
 <p>注：当年欧拉认可1是素数，所以在欧拉函数中1也被加了上去。下文在讨论欧拉函数时都把1视为素数。</p>
@@ -349,6 +396,24 @@
             <div>
               <div class="post-metas mb-3">
                 
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Web/">Web</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Web/">Web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/RSA/">RSA</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Python/">Python</a>
+                    
+                  </div>
                 
               </div>
               
@@ -362,12 +427,6 @@
                 <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
-                    
-                      <a href="/2022/04/13/hello-world/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Hello World</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
                     
                   </article>
                   <article class="post-next col-6">
