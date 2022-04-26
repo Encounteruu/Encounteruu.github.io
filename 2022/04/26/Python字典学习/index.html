@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/index_img/Program.png">
 <meta property="article:published_time" content="2022-04-25T16:29:33.975Z">
-<meta property="article:modified_time" content="2022-04-26T03:05:44.258Z">
+<meta property="article:modified_time" content="2022-04-26T03:13:15.955Z">
 <meta property="article:author" content="Encounteruu">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary_large_image">
@@ -264,7 +264,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      5.1k 字
+      5.4k 字
     </span>
   
 
@@ -273,7 +273,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      43 分钟
+      46 分钟
     </span>
   
 
@@ -380,7 +380,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Content:&quot;</span>)<br><span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> <span class="hljs-built_in">sorted</span>(content):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;%-15s %s&quot;</span> % (key,content[key]))<br></code></pre></td></tr></table></figure>
 
 <p>这样就会按照首字母顺序打印。</p>
-<h3 id="5、字典常见操作小结："><a href="#5、字典常见操作小结：" class="headerlink" title="5、字典常见操作小结："></a><strong>5、字典常见操作小结：</strong></h3><p><strong>常见字典运算操作</strong></p>
+<h3 id="5、字典常见操作小结"><a href="#5、字典常见操作小结" class="headerlink" title="5、字典常见操作小结"></a><strong>5、字典常见操作小结</strong></h3><p><strong>常见字典运算操作</strong></p>
 <table>
 <thead>
 <tr>
@@ -438,13 +438,13 @@
 <p>2、可选参数</p>
 <p>sort方法还有两个选参数:key和Reverse</p>
 <ul>
-<li>key在使用时必须提供一个排序过程总调用的函数，例如key&#x3D;abs就是按照绝对值排序，key&#x3D;len就是按照字符串长度排序</li>
+<li>key在使用时必须提供一个排序过程总调用的函数，例如key&#x3D;abs就是按照绝对值排序，key&#x3D;len就是按照字符串长度排序。实际上key后面的的值是一个匿名函数，这个函数作用于列表元素身上。根据这个函数从每个列表元素中找到排序元素key。然后根据key进行排序。比如key&#x3D;str.lower，就是忽略大小写之后进行字母排序。杂例如下：</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs Python">x=&#123;<span class="hljs-number">10</span>:<span class="hljs-string">&quot;ten&quot;</span>,-<span class="hljs-number">1</span>:<span class="hljs-string">&quot;-one&quot;</span>,<span class="hljs-number">4</span>:<span class="hljs-string">&quot;four&quot;</span>,<span class="hljs-number">3</span>:<span class="hljs-string">&quot;three&quot;</span>,-<span class="hljs-number">8</span>:<span class="hljs-string">&quot;-eight&quot;</span>&#125;<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">sorted</span>(x,key=<span class="hljs-built_in">abs</span>))<br><span class="hljs-comment"># 虽然是按照绝对值排序，但是并不会改变数据项的值</span><br><span class="hljs-comment"># 输出结果是[-1,3,4,-8,10]</span><br></code></pre></td></tr></table></figure>
 
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">x=&#123;<span class="hljs-string">&quot;three&quot;</span>:<span class="hljs-number">3</span>,<span class="hljs-string">&quot;ten&quot;</span>:<span class="hljs-number">10</span>,<span class="hljs-string">&quot;six&quot;</span>:<span class="hljs-number">6</span>,<span class="hljs-string">&quot;eight&quot;</span>:<span class="hljs-number">8</span>&#125;<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">sorted</span>(x,key=<span class="hljs-built_in">len</span>))<br><span class="hljs-comment"># 以下结果虽然是单引号，但实际上并无差别</span><br><span class="hljs-comment"># 输出结果是[&#x27;ten&#x27;,&#x27;six&#x27;,&#x27;three&#x27;,&#x27;eight&#x27;]</span><br></code></pre></td></tr></table></figure>
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs Python">x=[&#123;<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;Mary&quot;</span>,<span class="hljs-string">&quot;score&quot;</span>:<span class="hljs-number">4</span>&#125;,&#123;<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;Fred&quot;</span>,<span class="hljs-string">&quot;score&quot;</span>:<span class="hljs-number">8</span>&#125;,&#123;<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;John&quot;</span>,<span class="hljs-string">&quot;score&quot;</span>:<span class="hljs-number">9</span>&#125;]<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">sorted</span>(x,key=<span class="hljs-keyword">lambda</span> x:x[<span class="hljs-string">&quot;score&quot;</span>]))<br><span class="hljs-comment"># 输出结果是[&#123;&#x27;name&#x27;: &#x27;Mary&#x27;, &#x27;score&#x27;: 4&#125;, &#123;&#x27;name&#x27;: &#x27;Fred&#x27;, &#x27;score&#x27;: 8&#125;, &#123;&#x27;name&#x27;: &#x27;John&#x27;, &#x27;score&#x27;: 9&#125;]</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs Python">x=[&#123;<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;Mary&quot;</span>,<span class="hljs-string">&quot;score&quot;</span>:<span class="hljs-number">4</span>&#125;,&#123;<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;Fred&quot;</span>,<span class="hljs-string">&quot;score&quot;</span>:<span class="hljs-number">8</span>&#125;,&#123;<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;John&quot;</span>,<span class="hljs-string">&quot;score&quot;</span>:<span class="hljs-number">9</span>&#125;]<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">sorted</span>(x,key=<span class="hljs-keyword">lambda</span> x:x[<span class="hljs-string">&quot;score&quot;</span>]))<br><span class="hljs-comment"># lambda作为一个表达式，定义了一个匿名函数，使得函数的表达更为简洁也就是说key=lambda x: x[0]其实是根据key后面的函数，作用于列表元素身上。根据这个函数从每个列表元素身上找到排序元素key。然后再依据key进行排序。具体是什么函数根据要求来定，比如key=str.lower，就是忽略大小写后，进行字母排序</span><br><br><span class="hljs-comment"># 输出结果是[&#123;&#x27;name&#x27;: &#x27;Mary&#x27;, &#x27;score&#x27;: 4&#125;, &#123;&#x27;name&#x27;: &#x27;Fred&#x27;, &#x27;score&#x27;: 8&#125;, &#123;&#x27;name&#x27;: &#x27;John&#x27;, &#x27;score&#x27;: 9&#125;]</span><br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>reverse实现降序排序，需要提供一个布尔值</li>
