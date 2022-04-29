@@ -1,0 +1,663 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Encounteruu">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="RSA公钥加密系统通过公钥加密系统，可以实现对两个通信单位进行加密，这样即使传递的信息被黑客截取，也无法被其利用。公钥加密系统还可以让通信双方在电子信息末尾添加一个电子签名，这种电子签名无法被伪造，而且任何人都能轻易的核对签名的正确与否。 RSA公钥加密系统主要基于以下事实：寻找一个大素数是容易的，但是把一个大素数分解成正确的两个大素数的积是困难的。 公钥加密系统和数字签名的实现公钥加密系统 在一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RSA加密系统">
+<meta property="og:url" content="http://example.com/2022/04/29/RSA%E5%85%AC%E9%92%A5%E5%8A%A0%E5%AF%86%E7%B3%BB%E7%BB%9F%20(%E5%A4%8D%E5%88%B6%201)/index.html">
+<meta property="og:site_name" content="Encounteruu">
+<meta property="og:description" content="RSA公钥加密系统通过公钥加密系统，可以实现对两个通信单位进行加密，这样即使传递的信息被黑客截取，也无法被其利用。公钥加密系统还可以让通信双方在电子信息末尾添加一个电子签名，这种电子签名无法被伪造，而且任何人都能轻易的核对签名的正确与否。 RSA公钥加密系统主要基于以下事实：寻找一个大素数是容易的，但是把一个大素数分解成正确的两个大素数的积是困难的。 公钥加密系统和数字签名的实现公钥加密系统 在一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/index_img/Crypt.jpg">
+<meta property="article:published_time" content="2022-04-29T05:56:35.154Z">
+<meta property="article:modified_time" content="2022-04-15T07:22:33.543Z">
+<meta property="article:author" content="Encounteruu">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="RSA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/index_img/Crypt.jpg">
+  
+  
+  <title>RSA加密系统 - Encounteruu</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Encounteruu</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/categories/Web/">
+                    
+                    Web
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/categories/Crypt/">
+                    
+                    Crypt
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/categories/Misc">
+                    
+                    Misc
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/categories/CTF">
+                    
+                    CTF
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/categories/Tools">
+                    
+                    Tools
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/categories/Program">
+                    
+                    Program
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/categories/Daily">
+                    
+                    Daily
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="RSA加密系统">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Encounteruu
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-29 13:56" pubdate>
+        2022年4月29日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.2k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      44 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">RSA加密系统</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：2022年4月15日 下午
+                
+              </p>
+            
+            <div class="markdown-body">
+              <h1 id="RSA公钥加密系统"><a href="#RSA公钥加密系统" class="headerlink" title="RSA公钥加密系统"></a>RSA公钥加密系统</h1><p>通过公钥加密系统，可以实现对两个通信单位进行加密，这样即使传递的信息被黑客截取，也无法被其利用。公钥加密系统还可以让通信双方在电子信息末尾添加一个电子签名，这种电子签名无法被伪造，而且任何人都能轻易的核对签名的正确与否。</p>
+<p>RSA公钥加密系统主要基于以下事实：寻找一个大素数是容易的，但是把一个大素数分解成正确的两个大素数的积是困难的。</p>
+<h2 id="公钥加密系统和数字签名的实现"><a href="#公钥加密系统和数字签名的实现" class="headerlink" title="公钥加密系统和数字签名的实现"></a>公钥加密系统和数字签名的实现</h2><p><strong>公钥加密系统</strong></p>
+<p>在一个公钥加密系统中，双方参与者都有一个公钥和一个私钥，公钥可以对任何人透露，甚至可以公之于众。实际上，公钥如果可以以一张清单的形式在一个公开目录中看到，会极大便利于信息的传递。现在假设有参与者A和参与者B，参与者A具有公钥P<sub>A</sub>，私钥S<sub>A</sub>，参与者A具有公钥P<sub>B</sub>，私钥S<sub>B</sub>。加密系统中任何一对公钥和私钥的关系都要像函数和反函数的关系一样，才能实现信息的加密和解密，比如要使用公钥加密系统加密一个信息M，那么就必须实现以下等式.</p>
+<blockquote>
+<p>M&#x3D;P<sub>A</sub> ( S<sub>A</sub> ( M ) )&#x3D;S<sub>A</sub> ( P<sub>A</sub> ( M ) )</p>
+</blockquote>
+<p>即无论应用那种次序，运用公钥和私钥对M进行相继变换之后，仍然得到信息M</p>
+<p>发送信息的流程如下：</p>
+<ul>
+<li>A从一个公共目录或者直接向B索要他的公钥P<sub>B</sub></li>
+<li>A将要发送的的信息通过公钥转换成密文C&#x3D;P<sub>B</sub> ( M )，并把它发送给B</li>
+<li>当B收到来自A的密文之后，使用自己的私钥S<sub>B</sub>解密，由于P<sub>B</sub>和S<sub>B</sub>的关系就像函数和反函数的关系一样，所以用私钥S<sub>B</sub>解密之后的数据就是A想要发送的数据M</li>
+</ul>
+<blockquote>
+<p>在《算法导论》中，我看到这里其实有一点疑惑，那就是既然公钥P<sub>B</sub>是公开的，那是否可以通过P<sub>B</sub>来反解出密文M呢？实际上，这也正是RSA公钥加密系统着力解决的问题</p>
+</blockquote>
+<p><strong>数字签名</strong></p>
+<p>同样的，运用公钥加密系统的思想也很容易实现数字签名：</p>
+<p>A将自己的数字签名$&#x3D;S<sub>A</sub>(M’)，附加到消息M’的文件末尾，在B看到数字签名( M’, $ )之后，用从公开目录得到的P<sub>A</sub>进行验证等式M’&#x3D;S<sub>A</sub>($)是否成立，如果不成立，那么数字签名很可能已经被篡改</p>
+<h2 id="RSA加密系统"><a href="#RSA加密系统" class="headerlink" title="RSA加密系统"></a>RSA加密系统</h2><p>在RSA加密系统中，一个参与者按下列过程创建他的公钥和私钥：</p>
+<ul>
+<li>随机选取两个<strong>大素数</strong>p和q，使得p!&#x3D;q，例如p和q可能各有1024位</li>
+<li>计算n&#x3D;pq</li>
+<li>选取一个与φ(n)互质的小奇数e，φ(n)&#x3D;(p-1)(q-1)</li>
+<li>对于模φ(n)，计算出e的乘法逆元d的值</li>
+<li>将P&#x3D;（e，n）对外公开，并作为参与者的RSA公钥</li>
+<li>将S&#x3D;（d，n）保密，并作为参与者的RSA密钥</li>
+</ul>
+<p>为了变换与公钥P&#x3D;（e，n）相关的信息M，计算：</p>
+<blockquote>
+<p>P(M)&#x3D;M<sup>e</sup> mod n</p>
+</blockquote>
+<p>为了变换与密钥S&#x3D;（d，n）相关的密文C，计算：</p>
+<blockquote>
+<p>S(C)&#x3D;C<sup>d</sup>  mod n</p>
+</blockquote>
+<h1 id="补充数论数学知识"><a href="#补充数论数学知识" class="headerlink" title="补充数论数学知识"></a>补充数论数学知识</h1><p><strong>整除性与约数</strong></p>
+<p>一个数被另一个整数整除是数论中的一个重要概念。符号d|a（读作”d整除a“）的含义是，存在某个正整数k，使得a &#x3D; kd。如果a&gt;&#x3D;0, d|a,那么|d|&lt;&#x3D;|a|，且称a是d的倍数。如果d&gt;&#x3D;0，则称d是a的约数。</p>
+<p><strong>素数与合数</strong></p>
+<p>如果一个整数a&gt;1且只能被平凡约束1和他自身所整除，这个数就是素数。如果a&gt;1且不是素数，那这个数就是合数。称整数1是一个基本单位，并且它既不是素数也不是合数，同样0和所有的负整数也既不是素数也不适合数。</p>
+<p><strong>除法定理、余数和等模</strong></p>
+<ul>
+<li><p>除法定理</p>
+<p>对于任何整数a和任何正整数n，存在唯一整数q和r，满足0&lt;&#x3D;r&lt;n且a&#x3D;qn+r</p>
+</li>
+</ul>
+<p>值r&#x3D;a mod n为除法的余数。n|a当且仅当a mod n &#x3D; 0</p>
+<p><strong>最大公约数</strong></p>
+<p>最大公约数即为Greatest Common Divisor，常缩写为gcd。一组整数的公约数，是指同时是这组数中每一个数的约数的数。±1是任意一组整数的公约数。一组整数的最大公约数，是指所有公约数里面最大的一个。</p>
+<p>定理：</p>
+<blockquote>
+<p>如果任意整数a和b不都为0，则gcd（a，b）是a和b的线性组合集{ax+by: x,y∈Z}中最小正元素</p>
+<p>推论：</p>
+<p>对于任意正整数a和b，如果d|a且d|b，则d|gcd（a，b）</p>
+</blockquote>
+<p><strong>互质数</strong></p>
+<p>对于任意正整数a和b，如果gcd（a，b）&#x3D;1则a和b为互质数</p>
+<p>定理：</p>
+<blockquote>
+<p>对于任意正整数a、b和p，如果gcd（a，p）&#x3D;1且gcd（b，p）&#x3D;1，则gcd（ab，p）&#x3D;1</p>
+</blockquote>
+<h2 id="1、最大公约数"><a href="#1、最大公约数" class="headerlink" title="1、最大公约数"></a>1、最大公约数</h2><p><strong>欧几里得算法</strong></p>
+<p>已知两个数a和b，如何求出二者的最大公约数呢？</p>
+<p>假设a&gt;b，如果b是a的约数，那么b就是两者的最大公约数。下面讨论不能整除的情况，即a&#x3D;b×q+r，其中r&lt;b。通过证明可以得到gcd(a, b) &#x3D; gcd(b, a mod b)。那么也就得到了关于两个数的最大公约数的一个递归求法。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><pre><code class="hljs C++"><span class="hljs-comment">//C++</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">gcd</span><span class="hljs-params">(<span class="hljs-type">int</span> a,<span class="hljs-type">int</span> b)</span></span>&#123;<br>    <span class="hljs-keyword">if</span>(b==<span class="hljs-number">0</span>)<br>        <span class="hljs-keyword">return</span> a;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">gcd</span>(b,a%b)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Python</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">gcd</span>(<span class="hljs-params">a, b</span>):<br>    <span class="hljs-keyword">if</span> b == <span class="hljs-number">0</span>:<br>        <span class="hljs-keyword">return</span> a<br>    <span class="hljs-keyword">return</span> gcd(b, a % b)<br></code></pre></td></tr></table></figure>
+
+<p>上述算法被称作欧几里得算法（Euclidean algorithm）。</p>
+<h2 id="2、同余"><a href="#2、同余" class="headerlink" title="2、同余"></a>2、同余</h2><p><strong>同余</strong></p>
+<p>a和b是两个整数，如果它们的差a-b能够被另一个整数n整除，则称a，b对于模n同余，记作a≡b (mod n)，读作a与b关于模n同余（a is congruent to b mod n）。a≡b (mod n)的等价形式是当且仅当n|(a-b)，a,b对于模可理解为a-b&#x3D;kn，k是任意整数。当a≡0 (mod n)时，则n|a。</p>
+<p>性质：</p>
+<blockquote>
+<p>如果a ≡ b (mod n)</p>
+<p>a + c ≡ b + c (mod n)</p>
+<p>a - c ≡ b - c (mod n)</p>
+<p>ac ≡ bc (mod n)</p>
+</blockquote>
+<p>把型如ax≡b (mod n)的方程称为线性同余方程。在数论中，线性同余方程是最基本的同余方程，“线性”表示方程的未知数次数是一次。</p>
+<p>同余方程的解有三种情况，只有当GDD(a, n)|b时，方程有解，例如：</p>
+<div class="code-wrapper"><pre><code class="hljs">　　1. 无解，例如2x≡1 (mod 4)；
+</code></pre></div>
+<p>   　　2. 有唯一解，例如2x≡1 (mod 5)；<br>            　　3. 有无数解，例如2x≡0 (mod 4)；</p>
+<h2 id="3、欧拉函数"><a href="#3、欧拉函数" class="headerlink" title="3、欧拉函数"></a>3、欧拉函数</h2><p>对正整数n，欧拉函数（Euler’s totient function）是小于n的正整数中与n互质的正整数的个数，用φ(n)表示。欧拉函数又称为φ函数、欧拉商数等，φ(n)的值被称为n的欧拉数。规定φ(1)&#x3D;1。例如，在小于8的正整数中，1,3,5,7都与8互质，因此φ(8)&#x3D;4，φ(8)是一个欧拉函数，它的值等于4，4是8的欧拉数。</p>
+<p>当n是素数时，φ(n)&#x3D;n-1，因为所有小于n的数都和n互素。</p>
+<p>注：当年欧拉认可1是素数，所以在欧拉函数中1也被加了上去。下文在讨论欧拉函数时都把1视为素数。</p>
+<p>欧拉函数有一个性质，如果n可以分解为两个互素正整数p和q的乘积，那么n的欧拉函数就是p和q的欧拉函数的乘积，即：</p>
+<blockquote>
+<p>φ(n) &#x3D; φ(pq) &#x3D; φ(p)φ(q) &#x3D; (p-1)(q-1)</p>
+</blockquote>
+<p>例如，小于12的正整数中与12互质的有1,5,7,11，所以φ(12)&#x3D;4。12可以分解为两个互素的数3和4的乘积，因此：</p>
+<blockquote>
+<p>φ(12) &#x3D; φ(3×4) &#x3D; φ(3)φ(4) &#x3D; (3-1)φ(4) &#x3D; 2φ(4) &#x3D; 4</p>
+</blockquote>
+<p>这里也许会产生一个冲动，把φ(4)继续写成φ(4)&#x3D; 4-1，这是错误的，φ(n)&#x3D;n-1的前提是n是素数，因此φ(4)≠4-1。另一个冲动是写成φ(4)&#x3D; φ(2) φ(2)，这也是错误的，两个数互素的前提是它们的最大公约数是1，GCD(2,2)&#x3D;2，因此2和2并不互素。</p>
+<p><strong>费马小定理</strong></p>
+<blockquote>
+<p>若正整数a,p互质，则a<sup>p</sup> ≡ a (mod p)</p>
+</blockquote>
+<p><strong>欧拉定理</strong></p>
+<blockquote>
+<p>若正整数a,p互质，则a<sup>φ(p)</sup> ≡ 1 (mod p)</p>
+</blockquote>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 获取两个素数的思路也很简单，就是先取两个大的奇数，然后在检验这两个奇数是不是素数</span><br><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> randrange<br><br><br><span class="hljs-comment"># 得到一个在(2 ** (n - 1) + 1, 2 ** n)范围内的随机奇数</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">generate_n_bit_odd</span>(<span class="hljs-params">n: <span class="hljs-built_in">int</span></span>):<br>    <span class="hljs-keyword">assert</span> n &gt; <span class="hljs-number">1</span><br>    <span class="hljs-keyword">return</span> randrange(<span class="hljs-number">2</span> ** (n - <span class="hljs-number">1</span>) + <span class="hljs-number">1</span>, <span class="hljs-number">2</span> ** n, <span class="hljs-number">2</span>)<br><br><br><span class="hljs-comment"># 列举在2之后的50个质数</span><br>first_50_primes = [<span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">7</span>, <span class="hljs-number">11</span>, <span class="hljs-number">13</span>, <span class="hljs-number">17</span>, <span class="hljs-number">19</span>, <span class="hljs-number">23</span>, <span class="hljs-number">29</span>, <span class="hljs-number">31</span>,<br>                   <span class="hljs-number">37</span>, <span class="hljs-number">41</span>, <span class="hljs-number">43</span>, <span class="hljs-number">47</span>, <span class="hljs-number">53</span>, <span class="hljs-number">59</span>, <span class="hljs-number">61</span>, <span class="hljs-number">67</span>, <span class="hljs-number">71</span>, <span class="hljs-number">73</span>,<br>                   <span class="hljs-number">79</span>, <span class="hljs-number">83</span>, <span class="hljs-number">89</span>, <span class="hljs-number">97</span>, <span class="hljs-number">101</span>, <span class="hljs-number">103</span>, <span class="hljs-number">107</span>, <span class="hljs-number">109</span>, <span class="hljs-number">113</span>, <span class="hljs-number">127</span>,<br>                   <span class="hljs-number">131</span>, <span class="hljs-number">137</span>, <span class="hljs-number">139</span>, <span class="hljs-number">149</span>, <span class="hljs-number">151</span>, <span class="hljs-number">157</span>, <span class="hljs-number">163</span>, <span class="hljs-number">167</span>, <span class="hljs-number">173</span>, <span class="hljs-number">179</span>,<br>                   <span class="hljs-number">181</span>, <span class="hljs-number">191</span>, <span class="hljs-number">193</span>, <span class="hljs-number">197</span>, <span class="hljs-number">199</span>, <span class="hljs-number">211</span>, <span class="hljs-number">223</span>, <span class="hljs-number">227</span>, <span class="hljs-number">229</span>, <span class="hljs-number">233</span>]<br><br><br><span class="hljs-comment"># 进行初步素性检验，内部for循环用素数数组的元素逐个筛选，失败就马上中止回到外循环，再调用第一步的函数生成下一个候选奇数重新测试：</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_lowlevel_prime</span>(<span class="hljs-params">n</span>):<br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        c = generate_n_bit_odd(n)<br>        <span class="hljs-keyword">for</span> divisor <span class="hljs-keyword">in</span> first_50_primes:<br>            <span class="hljs-keyword">if</span> c % divisor == <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> divisor ** <span class="hljs-number">2</span> &lt;= c:<br>                <span class="hljs-keyword">break</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">return</span> c<br><br><br><span class="hljs-comment"># 使用rabin算法进行素性检验</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">miller_rabin_primality_check</span>(<span class="hljs-params">n, k=<span class="hljs-number">20</span></span>):<br>    <span class="hljs-keyword">assert</span> n &gt; <span class="hljs-number">3</span><br>    <span class="hljs-keyword">if</span> n % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br>    s, d = <span class="hljs-number">0</span>, n - <span class="hljs-number">1</span><br>    <span class="hljs-keyword">while</span> d % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>:<br>        d &gt;&gt;= <span class="hljs-number">1</span><br>        s += <span class="hljs-number">1</span><br><br>    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(k):<br>        a = randrange(<span class="hljs-number">2</span>, n - <span class="hljs-number">1</span>)<br>        x = <span class="hljs-built_in">pow</span>(a, d, n)<br><br>        <span class="hljs-keyword">if</span> x == <span class="hljs-number">1</span> <span class="hljs-keyword">or</span> x == n - <span class="hljs-number">1</span>:<br>            <span class="hljs-keyword">continue</span><br><br>        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(s):<br>            x = <span class="hljs-built_in">pow</span>(x, <span class="hljs-number">2</span>, n)<br>            <span class="hljs-keyword">if</span> x == n - <span class="hljs-number">1</span>:<br>                <span class="hljs-keyword">break</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br><br><br><span class="hljs-comment"># 包装以上函数num_bits就是我们需要的素数的位数</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_random_prime</span>(<span class="hljs-params">num_bits</span>):<br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        pp = get_lowlevel_prime(num_bits)<br>        <span class="hljs-keyword">if</span> miller_rabin_primality_check(pp):<br>            <span class="hljs-keyword">return</span> pp<br><br><br><span class="hljs-comment"># 随机选取两个超大质数p,q</span><br>p = get_random_prime(<span class="hljs-number">12</span>)<br>q = get_lowlevel_prime(<span class="hljs-number">12</span>)<br><span class="hljs-built_in">print</span>(q)<br><span class="hljs-built_in">print</span>(p)<br><br><span class="hljs-comment"># 两个已选取的质数p,q相乘记作N</span><br>N = p * q<br><br><span class="hljs-comment"># 计算欧拉函数的值记作t</span><br>T = (q - <span class="hljs-number">1</span>) * (p - <span class="hljs-number">1</span>)<br><br><span class="hljs-comment"># 选取公钥e</span><br>e = <span class="hljs-number">65537</span><br><br><br><span class="hljs-comment"># 计算私钥，记d是e关于t的模逆元，求取模逆元用扩展欧几里得算法，下列所示函数中old_s就是所求模逆元d</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">ext_euclid</span>(<span class="hljs-params">a, b</span>):<br>    old_s, s = <span class="hljs-number">1</span>, <span class="hljs-number">0</span><br>    old_r, r = a, b<br>    <span class="hljs-keyword">if</span> b == <span class="hljs-number">0</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, a<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">while</span> r != <span class="hljs-number">0</span>:<br>            temp = old_r // r<br>            old_r, r = r, old_r - temp * r<br>            old_s, s = s, old_s - temp * s<br>    <span class="hljs-keyword">return</span> old_s<br><br><br>d = ext_euclid(e, T)<br><br><span class="hljs-comment"># 分别输出公钥和私钥</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Public key: (%d, %d)&quot;</span> % (N, e))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Private key: (%d, %d)&quot;</span> % (N, d))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Please enter the information you want to transmit:&quot;</span>)<br>information = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">input</span>())<br><br><span class="hljs-comment"># 利用已知公钥加密：B将信息按照约定格式转化为小于N的非负整数n,加密方法为encrypt=information**e mod N</span><br>encrypt = (information ** e) % N<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;The encrypted data is: &quot;</span>)<br><span class="hljs-built_in">print</span>(encrypt)<br><br><span class="hljs-comment"># A收到来自B的加密消息之后利用私钥进行解密，由于d是e关于t的模逆元，公钥和私钥的关系也就相当于函数与反函数，解密流程为：decrypt=encrypt**d mod N</span><br>decrypt = (encrypt ** d) % N<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;The decrypted data is: &quot;</span>)<br><span class="hljs-built_in">print</span>(decrypt)<br><br><br></code></pre></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Web/">Web</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Python/">Python</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Web/">Web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/RSA/">RSA</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/29/Python%E5%AD%97%E5%85%B8%E5%AD%A6%E4%B9%A0/">
+                        <span class="hidden-mobile">Python字典学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"ABt9G7Y904gStofrqonIVL5G-MdYXbMMI","appKey":"qdHsXDxBSTqp6Qbj0z6Wo5wa","path":"window.location.pathname","placeholder":"写点什么再走嘛~","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":true,"recordIP":false,"serverURLs":"https://abt9g7y9.api.lncldglobal.com","emojiCDN":null,"emojiMaps":null,"enableQQ":true,"recordID":true,"visitor":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          Fluid.plugins.initFancyBox('#valine .vcontent img:not(.vemoji)');
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
